@@ -87,6 +87,18 @@ public class Car {
         models[models.length - 1] = newModel;
     }
 
+    public void deleteModel(String modelName) throws NoSuchModelNameException {
+        int n = -1;
+        for (int i = 0; i < models.length; i++) {
+            if (modelName.equals(models[i].getModelName())) {
+                n = i;
+            }
+        }
+        if (n < 0) throw new NoSuchModelNameException("Model not found!");
+        System.arraycopy(models, n + 1, models, n, models.length - n - 1);
+        models = Arrays.copyOf(models, models.length - 1);
+    }
+
     public int lengthOfModels() {
         return models.length;
     }

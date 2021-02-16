@@ -24,6 +24,11 @@ public class Main {
             System.out.print(car.getAllModelsName()[i] + " ");
             System.out.print(car.getAllModelsPrice()[i] + "\n");
         }
-        car.getModelPriceByName("123");
+        // car.getModelPriceByName("123");
+        car.deleteModel("Zhiga");
+        for (int i = 0; i < car.lengthOfModels(); i++) {
+            System.out.print(car.getAllModelsName()[i] + " ");
+            System.out.print(car.getAllModelsPrice()[i] + "\n");
+        }
     }
 }
