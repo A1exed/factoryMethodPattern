@@ -6,10 +6,10 @@ import com.pashin.exceptions.NoSuchModelNameException;
 
 import java.util.Arrays;
 
-public class Car {
+public class Car implements Vehicle {
     private String brand;
 
-    private Model[] models;
+    private static Model[] models;
 
     public Car() {
     }
@@ -22,22 +22,17 @@ public class Car {
         }
     }
 
+    @Override
     public String getBrand() {
         return brand;
     }
 
+    @Override
     public void setBrand(String brand) {
         this.brand = brand;
     }
 
-    public Model[] getModels() {
-        return models;
-    }
-
-    public void setModels(Model[] models) {
-        this.models = models;
-    }
-
+    @Override
     public String[] getAllModelsName() {
         String[] allModelsName = new String[models.length];
         for (int i = 0; i < models.length; i++) {
@@ -46,7 +41,8 @@ public class Car {
         return allModelsName;
     }
 
-    public int getModelPriceByName(String modelName) throws NoSuchModelNameException{
+    @Override
+    public double getModelPriceByName(String modelName) throws NoSuchModelNameException{
         for (Model model : models) {
             if (modelName.equals(model.getModelName())) {
                 return model.getPrice();
@@ -55,7 +51,8 @@ public class Car {
         throw new NoSuchModelNameException("Model not found!");
     }
 
-    public void setModelPriceByName(String modelName, int newModelPrice) throws NoSuchModelNameException {
+    @Override
+    public void setModelPriceByName(String modelName, double newModelPrice) throws NoSuchModelNameException {
         if (newModelPrice <= 0) throw new ModelPriceOutOfBoundsException("Invalid price value!");
         boolean exFlag = true;
         for (Model model : models) {
@@ -67,15 +64,17 @@ public class Car {
         if (exFlag) throw new NoSuchModelNameException("Model already exists!");
     }
 
-    public int[] getAllModelsPrice() {
-        int[] allModelsPrice = new int[models.length];
+    @Override
+    public double[] getAllModelsPrice() {
+        double[] allModelsPrice = new double[models.length];
         for (int i = 0; i < models.length; i++) {
             allModelsPrice[i] = models[i].getPrice();
         }
         return allModelsPrice;
     }
 
-    public void addModel(String modelName, int price) throws DuplicateModelNameException {
+    @Override
+    public void addModel(String modelName, double price) throws DuplicateModelNameException {
         if (price <= 0) throw new ModelPriceOutOfBoundsException("Invalid price value!");
         for (Model model : models) {
             if (modelName.equals(model.getModelName())) {
@@ -87,6 +86,7 @@ public class Car {
         models[models.length - 1] = newModel;
     }
 
+    @Override
     public void deleteModel(String modelName) throws NoSuchModelNameException {
         int n = -1;
         for (int i = 0; i < models.length; i++) {
@@ -99,19 +99,20 @@ public class Car {
         models = Arrays.copyOf(models, models.length - 1);
     }
 
+    @Override
     public int lengthOfModels() {
         return models.length;
     }
 
-    public class Model {
+    private static class Model {
         private String modelName;
 
-        private int price;
+        private double price;
 
         public Model() {
         }
 
-        public Model(String modelName, int price) throws DuplicateModelNameException {
+        public Model(String modelName, double price) throws DuplicateModelNameException {
             if (price <= 0) throw new ModelPriceOutOfBoundsException("Invalid price value!");
             for (Model model : models) {
                 if (modelName.equals(model.getModelName())) {
@@ -135,11 +136,11 @@ public class Car {
             this.modelName = modelName;
         }
 
-        public int getPrice() {
+        public double getPrice() {
             return price;
         }
 
-        public void setPrice(int price) {
+        public void setPrice(double price) {
             if (price <= 0) throw new ModelPriceOutOfBoundsException("Invalid price value!");
             this.price = price;
         }

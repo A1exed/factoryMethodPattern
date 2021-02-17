@@ -1,19 +1,17 @@
 package com.pashin;
 
 import com.pashin.app.Car;
+import com.pashin.app.Motorbike;
+import com.pashin.app.Vehicle;
 import com.pashin.exceptions.DuplicateModelNameException;
 import com.pashin.exceptions.NoSuchModelNameException;
 
 public class Main {
 
     public static void main(String[] args) throws NoSuchModelNameException, DuplicateModelNameException {
-        Car car = new Car("Lada", 2);
-        Car.Model[] carModels = car.getModels();
-        carModels[0].setModelName("Priora");
-        carModels[0].setPrice(150);
-        carModels[1].setModelName("Granta");
-        carModels[1].setPrice(200);
-        car.setModels(carModels);
+        Vehicle car = new Motorbike("Lada", 0);
+        car.addModel("Priora", 150);
+        car.addModel("Granta", 200);
         car.addModel("Zhiga", 10);
         for (int i = 0; i < car.lengthOfModels(); i++) {
             System.out.print(car.getAllModelsName()[i] + " ");
