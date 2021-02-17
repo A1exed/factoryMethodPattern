@@ -6,10 +6,10 @@ import com.pashin.exceptions.NoSuchModelNameException;
 
 import java.util.Arrays;
 
-public class Car implements Vehicle {
+public class Car implements Vehicle, Cloneable {
     private String brand;
 
-    private static Model[] models;
+    private Model[] models;
 
     public Car() {
     }
@@ -104,7 +104,17 @@ public class Car implements Vehicle {
         return models.length;
     }
 
-    private static class Model {
+    @Override
+    public Car clone() throws CloneNotSupportedException {
+        Car car = (Car) super.clone();
+        car.models = models.clone();
+        for (int i = 0; i < lengthOfModels(); i++) {
+            car.models[i] = models[i].clone();
+        }
+        return car;
+    }
+
+    private static class Model implements Cloneable {
         private String modelName;
 
         private double price;
@@ -112,13 +122,7 @@ public class Car implements Vehicle {
         public Model() {
         }
 
-        public Model(String modelName, double price) throws DuplicateModelNameException {
-            if (price <= 0) throw new ModelPriceOutOfBoundsException("Invalid price value!");
-            for (Model model : models) {
-                if (modelName.equals(model.getModelName())) {
-                    throw new DuplicateModelNameException("Model already exists!");
-                }
-            }
+        public Model(String modelName, double price) {
             this.modelName = modelName;
             this.price = price;
         }
@@ -127,12 +131,7 @@ public class Car implements Vehicle {
             return modelName;
         }
 
-        public void setModelName(String modelName) throws DuplicateModelNameException {
-            for (Model model : models) {
-                if (modelName.equals(model.getModelName())) {
-                    throw new DuplicateModelNameException("Model already exists!");
-                }
-            }
+        public void setModelName(String modelName) {
             this.modelName = modelName;
         }
 
@@ -141,8 +140,12 @@ public class Car implements Vehicle {
         }
 
         public void setPrice(double price) {
-            if (price <= 0) throw new ModelPriceOutOfBoundsException("Invalid price value!");
             this.price = price;
+        }
+
+        @Override
+        public Model clone() throws CloneNotSupportedException {
+            return (Model) super.clone();
         }
     }
 }

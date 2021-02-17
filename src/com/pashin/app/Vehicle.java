@@ -21,4 +21,6 @@ public interface Vehicle {
     void deleteModel(String modelName) throws NoSuchModelNameException;
 
     int lengthOfModels();
+
+    Vehicle clone() throws CloneNotSupportedException;
 }

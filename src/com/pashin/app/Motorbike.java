@@ -4,7 +4,7 @@ import com.pashin.exceptions.DuplicateModelNameException;
 import com.pashin.exceptions.ModelPriceOutOfBoundsException;
 import com.pashin.exceptions.NoSuchModelNameException;
 
-public class Motorbike implements Vehicle {
+public class Motorbike implements Vehicle, Cloneable {
     private String brand;
 
     private Model head = new Model();
@@ -133,10 +133,36 @@ public class Motorbike implements Vehicle {
         return size;
     }
 
-    private static class Model {
+    @Override
+    public Vehicle clone() throws CloneNotSupportedException {
+        Motorbike motorbike = (Motorbike) super.clone();
+        motorbike.head = new Model();
+        motorbike.head.prev = motorbike.head;
+        motorbike.head.next = motorbike.head;
+        Model model = head.next;
+        Model prev = motorbike.head;
+        Model next = motorbike.head;
+        while (model != head) {
+            Model newModel = model.clone();
+            prev.next = newModel;
+            next.prev = newModel;
+            newModel.next = prev;
+            newModel.prev = next;
+            prev = newModel;
+            model = model.next;
+        }
+        return motorbike;
+    }
+
+    private static class Model implements Cloneable {
         String modelName = null;
         double price = Double.NaN;
         Model prev = null;
         Model next = null;
+
+        @Override
+        public Model clone() throws CloneNotSupportedException {
+            return (Model) super.clone();
+        }
     }
 }
