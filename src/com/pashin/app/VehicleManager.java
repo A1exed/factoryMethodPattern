@@ -1,5 +1,7 @@
 package com.pashin.app;
 
+import com.pashin.app.decorator.VehicleDecorator;
+
 public class VehicleManager {
     private static VehicleFactory vehicleFactory = new CarFactory();
 
@@ -32,5 +34,9 @@ public class VehicleManager {
         for (double d : vehicle.getAllModelsPrice()) {
             System.out.println(d);
         }
+    }
+
+    public static Vehicle synchronizedVehicle(Vehicle vehicle) {
+        return new VehicleDecorator(vehicle);
     }
 }

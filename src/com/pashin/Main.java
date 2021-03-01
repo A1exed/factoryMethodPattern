@@ -2,6 +2,7 @@ package com.pashin;
 
 import com.pashin.app.*;
 import com.pashin.app.adapter.Adapter;
+import com.pashin.app.decorator.VehicleDecorator;
 import com.pashin.exceptions.DuplicateModelNameException;
 import com.pashin.exceptions.NoSuchModelNameException;
 
@@ -65,12 +66,17 @@ public class Main {
         System.out.println("Avg: " + VehicleManager.getAvgVehiclePrice(clone));
         VehicleManager.outputAllVehicleModels(clone);
         VehicleManager.outputAllVehiclePrices(clone);
-
         // Adapter
         /*String[] strings = new String[2];
         strings[0] = "Hello";
         strings[1] = "world";
         System.out.println(Adapter.stringArrToOutputStream(strings));*/
-
+        // Decorator
+        /*System.out.println("---------------");
+        System.out.println("Декоратор");
+        System.out.println("---------------");
+        VehicleDecorator vehicleDecorator = new VehicleDecorator(VehicleManager.synchronizedVehicle(vehicle));
+        vehicleDecorator.addModel("decorTest", 1);
+        VehicleManager.outputAllVehicleModels(vehicle);*/
     }
 }
