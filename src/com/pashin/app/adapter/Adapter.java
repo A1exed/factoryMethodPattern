@@ -4,7 +4,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 public class Adapter {
-    public static OutputStream stringArrToOutputStream(String[] stringArr) {
+    public OutputStream stringArrToOutputStream(String[] stringArr) {
         OutputStream outputStream = new ByteArrayOutputStream();
         for (String s : stringArr) {
             try {

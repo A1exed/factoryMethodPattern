@@ -70,7 +70,8 @@ public class Main {
         /*String[] strings = new String[2];
         strings[0] = "Hello";
         strings[1] = "world";
-        System.out.println(Adapter.stringArrToOutputStream(strings));*/
+        Adapter adapter = new Adapter();
+        System.out.println(adapter.stringArrToOutputStream(strings));*/
         // Decorator
         /*System.out.println("---------------");
         System.out.println("Декоратор");
