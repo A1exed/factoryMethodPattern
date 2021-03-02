@@ -29,12 +29,14 @@ public class Main {
             System.out.print(car.getAllModelsPrice()[i] + "\n");
         }*/
 
+
         // Factory
-        System.out.println("---------------");
+        /*System.out.println("---------------");
         System.out.println("Добавим");
         System.out.println("---------------");
-        VehicleManager.setVehicleFactory(new MotorbikeFactory());
-        Vehicle vehicle = VehicleManager.createInstance("Lada", 0);
+        VehicleManager.setVehicleFactory(new CarFactory());
+        Vehicle vehicle = VehicleManager.createInstance("Lada", 2);
+        System.out.println(vehicle.getClass());
         vehicle.addModel("Priora", 150);
         vehicle.addModel("Granta", 200);
         vehicle.addModel("Zhiga", 10);
@@ -54,6 +56,7 @@ public class Main {
         System.out.println("Клонируем и меняем цену приоры");
         Vehicle clone = vehicle.clone();
         clone.setModelPriceByName("Priora", 666);
+        clone.setModelNameByName("Priora", "Granta");
         System.out.println("---------------");
         System.out.println("Оригинал");
         System.out.println("---------------");
@@ -65,13 +68,13 @@ public class Main {
         System.out.println("---------------");
         System.out.println("Avg: " + VehicleManager.getAvgVehiclePrice(clone));
         VehicleManager.outputAllVehicleModels(clone);
-        VehicleManager.outputAllVehiclePrices(clone);
+        VehicleManager.outputAllVehiclePrices(clone);*/
         // Adapter
-        /*String[] strings = new String[2];
+        String[] strings = new String[2];
         strings[0] = "Hello";
         strings[1] = "world";
         Adapter adapter = new Adapter();
-        System.out.println(adapter.stringArrToOutputStream(strings));*/
+        System.out.println(adapter.stringArrToOutputStream(strings));
         // Decorator
         /*System.out.println("---------------");
         System.out.println("Декоратор");

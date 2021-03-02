@@ -25,10 +25,12 @@ public class Motorbike implements Vehicle, Cloneable {
         Model next = head;
         for (int i = 0; i < modelListLength; i++) {
             Model model = new Model();
+            model.modelName = "M" + i;
+            model.price = i * 1.0;
             prev.next = model;
             next.prev = model;
-            model.next = prev;
-            model.prev = next;
+            model.next = next;
+            model.prev = prev;
             prev = model;
         }
     }
@@ -75,10 +77,31 @@ public class Motorbike implements Vehicle, Cloneable {
             if (modelName.equals(model.modelName)) {
                 model.price = newModelPrice;
                 exFlag = false;
+                break;
             }
             model = model.next;
         }
-        if (exFlag) throw new NoSuchModelNameException("Model already exists!");
+        if (exFlag) throw new NoSuchModelNameException("Model not found!");
+    }
+
+    @Override
+    public void setModelNameByName(String modelName, String newModelName) throws NoSuchModelNameException, DuplicateModelNameException {
+        boolean exFlag = true;
+        Model model = head.next;
+        for (int i = 0; i < size; i++) {
+            if (newModelName.equals(model.modelName)) throw new DuplicateModelNameException("Model already exists!");
+            model = model.next;
+        }
+        model = head.next;
+        for (int i = 0; i < size; i++) {
+            if (modelName.equals(model.modelName)) {
+                model.modelName = newModelName;
+                exFlag = false;
+                break;
+            }
+            model = model.next;
+        }
+        if (exFlag) throw new NoSuchModelNameException("Model not found!");
     }
 
     @Override
@@ -154,11 +177,27 @@ public class Motorbike implements Vehicle, Cloneable {
         return motorbike;
     }
 
-    private static class Model implements Cloneable {
+    private class Model implements Cloneable {
         String modelName = null;
         double price = Double.NaN;
         Model prev = null;
         Model next = null;
+
+        public String getModelName() {
+            return modelName;
+        }
+
+        public void setModelName(String modelName) {
+            this.modelName = modelName;
+        }
+
+        public double getPrice() {
+            return price;
+        }
+
+        public void setPrice(double price) {
+            this.price = price;
+        }
 
         @Override
         public Model clone() throws CloneNotSupportedException {

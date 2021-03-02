@@ -14,6 +14,8 @@ public interface Vehicle {
 
     void setModelPriceByName(String modelName, double newModelPrice) throws NoSuchModelNameException;
 
+    void setModelNameByName(String modelName, String newModelName) throws NoSuchModelNameException, DuplicateModelNameException;
+
     double[] getAllModelsPrice();
 
     void addModel(String modelName, double price) throws DuplicateModelNameException;

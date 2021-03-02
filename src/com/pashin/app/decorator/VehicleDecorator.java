@@ -37,6 +37,11 @@ public class VehicleDecorator implements Vehicle {
     }
 
     @Override
+    public void setModelNameByName(String modelName, String newModelName) throws NoSuchModelNameException, DuplicateModelNameException {
+        vehicle.setModelNameByName(modelName, newModelName);
+    }
+
+    @Override
     public synchronized double[] getAllModelsPrice() {
         return vehicle.getAllModelsPrice();
     }

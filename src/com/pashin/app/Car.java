@@ -19,6 +19,8 @@ public class Car implements Vehicle, Cloneable {
         models = new Model[modelArrayLength];
         for (int i = 0; i < modelArrayLength; i++) {
             models[i] = new Model();
+            models[i].setModelName("M" + i);
+            models[i].setPrice(i * 1.0);
         }
     }
 
@@ -59,9 +61,26 @@ public class Car implements Vehicle, Cloneable {
             if (modelName.equals(model.getModelName())) {
                 model.setPrice(newModelPrice);
                 exFlag = false;
+                break;
             }
         }
-        if (exFlag) throw new NoSuchModelNameException("Model already exists!");
+        if (exFlag) throw new NoSuchModelNameException("Model not found!");
+    }
+
+    @Override
+    public void setModelNameByName(String modelName, String newModelName) throws NoSuchModelNameException, DuplicateModelNameException {
+        boolean exFlag = true;
+        for (Model model : models) {
+            if (newModelName.equals(model.getModelName())) throw new DuplicateModelNameException("Model already exists!");
+        }
+        for (Model model : models) {
+            if (modelName.equals(model.getModelName())) {
+                model.setModelName(newModelName);
+                exFlag = false;
+                break;
+            }
+        }
+        if (exFlag) throw new NoSuchModelNameException("Model not found!");
     }
 
     @Override
@@ -114,7 +133,7 @@ public class Car implements Vehicle, Cloneable {
         return car;
     }
 
-    private static class Model implements Cloneable {
+    private class Model implements Cloneable {
         private String modelName;
 
         private double price;
