@@ -1,8 +1,10 @@
 package com.pashin;
 
-import com.pashin.app.*;
-import com.pashin.app.adapter.Adapter;
-import com.pashin.app.decorator.VehicleDecorator;
+import com.pashin.app.Vehicle;
+import com.pashin.app.VehicleManager;
+import com.pashin.app.chainofresponsibility.Writer;
+import com.pashin.app.chainofresponsibility.impl.InColumnWriter;
+import com.pashin.app.chainofresponsibility.impl.InLineWriter;
 import com.pashin.exceptions.DuplicateModelNameException;
 import com.pashin.exceptions.NoSuchModelNameException;
 
@@ -70,11 +72,11 @@ public class Main {
         VehicleManager.outputAllVehicleModels(clone);
         VehicleManager.outputAllVehiclePrices(clone);*/
         // Adapter
-        String[] strings = new String[2];
+        /*String[] strings = new String[2];
         strings[0] = "Hello";
         strings[1] = "world";
         Adapter adapter = new Adapter();
-        System.out.println(adapter.stringArrToOutputStream(strings));
+        System.out.println(adapter.stringArrToOutputStream(strings));*/
         // Decorator
         /*System.out.println("---------------");
         System.out.println("Декоратор");
@@ -82,5 +84,11 @@ public class Main {
         VehicleDecorator vehicleDecorator = new VehicleDecorator(VehicleManager.synchronizedVehicle(vehicle));
         vehicleDecorator.addModel("decorTest", 1);
         VehicleManager.outputAllVehicleModels(vehicle);*/
+        // Chain Of Responsibility
+        Writer writer = new InLineWriter();
+        writer.setNextWriter(new InColumnWriter());
+        Vehicle v1 = VehicleManager.createInstance("Lada-LINE", 2);
+        Vehicle v2 = VehicleManager.createInstance("Lada-COLUMN", 4);
+        writer.printToFile(v1);
     }
 }
