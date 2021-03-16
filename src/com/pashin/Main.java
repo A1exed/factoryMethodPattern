@@ -107,6 +107,7 @@ public class Main {
         car.setPrintCommand(new InLineCommand());
         car.print(outputStream);
         try {
+            assert outputStream != null;
             outputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
