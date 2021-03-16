@@ -1,12 +1,18 @@
 package com.pashin;
 
-import com.pashin.app.Vehicle;
-import com.pashin.app.VehicleManager;
+import com.pashin.app.*;
 import com.pashin.app.chainofresponsibility.Writer;
 import com.pashin.app.chainofresponsibility.impl.InColumnWriter;
 import com.pashin.app.chainofresponsibility.impl.InLineWriter;
+import com.pashin.app.command.impl.InColumnCommand;
+import com.pashin.app.command.impl.InLineCommand;
 import com.pashin.exceptions.DuplicateModelNameException;
 import com.pashin.exceptions.NoSuchModelNameException;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 public class Main {
 
@@ -85,10 +91,25 @@ public class Main {
         vehicleDecorator.addModel("decorTest", 1);
         VehicleManager.outputAllVehicleModels(vehicle);*/
         // Chain Of Responsibility
-        Writer writer = new InLineWriter();
+        /*Writer writer = new InLineWriter();
         writer.setNextWriter(new InColumnWriter());
         Vehicle v1 = VehicleManager.createInstance("Lada-LINE", 2);
         Vehicle v2 = VehicleManager.createInstance("Lada-COLUMN", 4);
-        writer.printToFile(v1);
+        writer.printToFile(v1);*/
+        // Command
+        OutputStream outputStream = null;
+        try {
+            outputStream = new FileOutputStream("src/com/pashin/resources/outputVehicle");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Car car = new Car("Lada", 4);
+        car.setPrintCommand(new InLineCommand());
+        car.print(outputStream);
+        try {
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

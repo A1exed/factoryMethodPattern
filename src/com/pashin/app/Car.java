@@ -1,9 +1,12 @@
 package com.pashin.app;
 
+import com.pashin.app.command.Command;
+import com.pashin.app.command.impl.InColumnCommand;
 import com.pashin.exceptions.DuplicateModelNameException;
 import com.pashin.exceptions.ModelPriceOutOfBoundsException;
 import com.pashin.exceptions.NoSuchModelNameException;
 
+import java.io.OutputStream;
 import java.util.Arrays;
 
 public class Car implements Vehicle, Cloneable {
@@ -11,10 +14,13 @@ public class Car implements Vehicle, Cloneable {
 
     private Model[] models;
 
+    private Command printCommand;
+
     public Car() {
     }
 
     public Car(String brand, int modelArrayLength) {
+        printCommand = new InColumnCommand();
         this.brand = brand;
         models = new Model[modelArrayLength];
         for (int i = 0; i < modelArrayLength; i++) {
@@ -22,6 +28,14 @@ public class Car implements Vehicle, Cloneable {
             models[i].setModelName("M" + i);
             models[i].setPrice(i * 1.0);
         }
+    }
+
+    public void setPrintCommand(Command printCommand) {
+        this.printCommand = printCommand;
+    }
+
+    public void print(OutputStream outputStream) {
+        printCommand.execute(this, outputStream);
     }
 
     @Override
