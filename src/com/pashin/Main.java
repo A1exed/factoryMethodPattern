@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Iterator;
 
 public class Main {
 
@@ -97,7 +98,7 @@ public class Main {
         Vehicle v2 = VehicleManager.createInstance("Lada-COLUMN", 4);
         writer.printToFile(v1);*/
         // Command
-        OutputStream outputStream = null;
+        /*OutputStream outputStream = null;
         try {
             outputStream = new FileOutputStream("src/com/pashin/resources/outputVehicle");
         } catch (FileNotFoundException e) {
@@ -111,6 +112,12 @@ public class Main {
             outputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }*/
+        // Iterator
+        Car car = new Car("Lada", 4);
+        Iterator iterator = car.iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next().toString());
         }
     }
 }

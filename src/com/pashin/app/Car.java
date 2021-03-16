@@ -8,6 +8,7 @@ import com.pashin.exceptions.NoSuchModelNameException;
 
 import java.io.OutputStream;
 import java.util.Arrays;
+import java.util.Iterator;
 
 public class Car implements Vehicle, Cloneable {
     private String brand;
@@ -147,7 +148,7 @@ public class Car implements Vehicle, Cloneable {
         return car;
     }
 
-    private class Model implements Cloneable {
+    protected static class Model implements Cloneable {
         private String modelName;
 
         private double price;
@@ -177,8 +178,44 @@ public class Car implements Vehicle, Cloneable {
         }
 
         @Override
+        public String toString() {
+            return "Model{" +
+                    "modelName='" + modelName + '\'' +
+                    ", price=" + price +
+                    '}';
+        }
+
+        @Override
         public Model clone() throws CloneNotSupportedException {
             return (Model) super.clone();
+        }
+    }
+
+    public CarIterator iterator() {
+        return new CarIterator(this);
+    }
+    public class CarIterator implements Iterator {
+
+        private int index;
+
+        private Car car;
+
+        public CarIterator(Car car) {
+            index = 0;
+            this.car = car;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return index + 1 < car.lengthOfModels();
+        }
+
+        @Override
+        public Model next() {
+            if (hasNext()) {
+                index++;
+            }
+            return models[index];
         }
     }
 }
