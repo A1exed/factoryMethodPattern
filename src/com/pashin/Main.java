@@ -114,10 +114,47 @@ public class Main {
             e.printStackTrace();
         }*/
         // Iterator
-        Car car = new Car("Lada", 4);
+        /*Car car = new Car("Lada", 4);
         Iterator iterator = car.iterator();
         while (iterator.hasNext()) {
             System.out.println(iterator.next().toString());
+        }*/
+        // Memento
+        Car car = new Car("Lada", 4);
+        Car.CarMemento carMemento = car.createMemento();
+        System.out.println("---------------");
+        System.out.println("Оригинал");
+        System.out.println("---------------");
+        System.out.println(car.getBrand());
+        String[] names = car.getAllModelsName();
+        double[] prices = car.getAllModelsPrice();
+        for (int i = 0; i < car.lengthOfModels(); i++) {
+            System.out.println(names[i] + ": " + prices[i]);
+        }
+
+        car.setBrand("BMW");
+        car.addModel("new", 200);
+
+        System.out.println("---------------");
+        System.out.println("Измененная");
+        System.out.println("---------------");
+        System.out.println(car.getBrand());
+        names = car.getAllModelsName();
+        prices = car.getAllModelsPrice();
+        for (int i = 0; i < car.lengthOfModels(); i++) {
+            System.out.println(names[i] + ": " + prices[i]);
+        }
+
+        car.setMemento(carMemento);
+
+        System.out.println("---------------");
+        System.out.println("После восстановления");
+        System.out.println("---------------");
+        System.out.println(car.getBrand());
+        names = car.getAllModelsName();
+        prices = car.getAllModelsPrice();
+        for (int i = 0; i < car.lengthOfModels(); i++) {
+            System.out.println(names[i] + ": " + prices[i]);
         }
     }
 }

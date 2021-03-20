@@ -6,7 +6,7 @@ import com.pashin.exceptions.DuplicateModelNameException;
 import com.pashin.exceptions.ModelPriceOutOfBoundsException;
 import com.pashin.exceptions.NoSuchModelNameException;
 
-import java.io.OutputStream;
+import java.io.*;
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -191,9 +191,6 @@ public class Car implements Vehicle, Cloneable {
         }
     }
 
-    public CarIterator iterator() {
-        return new CarIterator(this);
-    }
     public class CarIterator implements Iterator {
 
         private int index;
@@ -217,5 +214,64 @@ public class Car implements Vehicle, Cloneable {
             }
             return models[index];
         }
+    }
+
+    public CarIterator iterator() {
+        return new CarIterator(this);
+    }
+
+
+    public static class CarMemento {
+        private byte[] carBytes;
+
+        public void setCar(Car car) {
+            try {
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
+
+                dataOutputStream.writeUTF(car.brand);
+                dataOutputStream.writeInt(car.lengthOfModels());
+                for (Model model : car.models) {
+                    dataOutputStream.writeUTF(model.getModelName());
+                    dataOutputStream.writeDouble(model.getPrice());
+                }
+                dataOutputStream.flush();
+                carBytes = byteArrayOutputStream.toByteArray();
+
+                dataOutputStream.close();
+                byteArrayOutputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void getCar(Car car) {
+            try {
+                ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(carBytes);
+                DataInputStream dataInputStream = new DataInputStream(byteArrayInputStream);
+
+                car.setBrand(dataInputStream.readUTF());
+                int lengthOfModels = dataInputStream.readInt();
+                car.models = new Model[lengthOfModels];
+                for (int i = 0; i < lengthOfModels; i++) {
+                    car.models[i] = new Model(dataInputStream.readUTF(), dataInputStream.readDouble());
+                }
+
+                dataInputStream.close();
+                byteArrayInputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public CarMemento createMemento() {
+        CarMemento carMemento = new CarMemento();
+        carMemento.setCar(this);
+        return carMemento;
+    }
+
+    public void setMemento(CarMemento memento) {
+        memento.getCar(this);
     }
 }
