@@ -2,8 +2,9 @@ package com.pashin.app.command;
 
 import com.pashin.app.Car;
 
-import java.io.OutputStream;
+import java.io.Serializable;
+import java.io.Writer;
 
-public interface Command {
-    void execute(Car car, OutputStream outputStream);
+public interface Command extends Serializable {
+    void execute(Car car, Writer writer);
 }

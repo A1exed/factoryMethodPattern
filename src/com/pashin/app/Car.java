@@ -10,15 +10,12 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.Iterator;
 
-public class Car implements Vehicle, Cloneable {
+public class Car implements Vehicle {
     private String brand;
 
     private Model[] models;
 
     private Command printCommand;
-
-    public Car() {
-    }
 
     public Car(String brand, int modelArrayLength) {
         printCommand = new InColumnCommand();
@@ -35,8 +32,8 @@ public class Car implements Vehicle, Cloneable {
         this.printCommand = printCommand;
     }
 
-    public void print(OutputStream outputStream) {
-        printCommand.execute(this, outputStream);
+    public void print(Writer writer) {
+        printCommand.execute(this, writer);
     }
 
     @Override
@@ -148,7 +145,7 @@ public class Car implements Vehicle, Cloneable {
         return car;
     }
 
-    protected static class Model implements Cloneable {
+    protected static class Model implements Cloneable, Serializable {
         private String modelName;
 
         private double price;
@@ -191,11 +188,11 @@ public class Car implements Vehicle, Cloneable {
         }
     }
 
-    public class CarIterator implements Iterator {
+    public class CarIterator implements Iterator, Serializable {
 
         private int index;
 
-        private Car car;
+        private final Car car;
 
         public CarIterator(Car car) {
             index = 0;
@@ -221,47 +218,40 @@ public class Car implements Vehicle, Cloneable {
     }
 
 
-    public static class CarMemento {
+    public static class CarMemento implements Serializable {
+
         private byte[] carBytes;
 
         public void setCar(Car car) {
             try {
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
 
-                dataOutputStream.writeUTF(car.brand);
-                dataOutputStream.writeInt(car.lengthOfModels());
-                for (Model model : car.models) {
-                    dataOutputStream.writeUTF(model.getModelName());
-                    dataOutputStream.writeDouble(model.getPrice());
-                }
-                dataOutputStream.flush();
+                objectOutputStream.writeObject(car);
                 carBytes = byteArrayOutputStream.toByteArray();
+                objectOutputStream.flush();
 
-                dataOutputStream.close();
+                objectOutputStream.close();
                 byteArrayOutputStream.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        public void getCar(Car car) {
+        public Car getCar() {
+            Car car = null;
             try {
                 ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(carBytes);
-                DataInputStream dataInputStream = new DataInputStream(byteArrayInputStream);
+                ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
 
-                car.setBrand(dataInputStream.readUTF());
-                int lengthOfModels = dataInputStream.readInt();
-                car.models = new Model[lengthOfModels];
-                for (int i = 0; i < lengthOfModels; i++) {
-                    car.models[i] = new Model(dataInputStream.readUTF(), dataInputStream.readDouble());
-                }
+                car = (Car) objectInputStream.readObject();
 
-                dataInputStream.close();
+                objectInputStream.close();
                 byteArrayInputStream.close();
-            } catch (IOException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
+            return car;
         }
     }
 
@@ -271,7 +261,7 @@ public class Car implements Vehicle, Cloneable {
         return carMemento;
     }
 
-    public void setMemento(CarMemento memento) {
-        memento.getCar(this);
+    public Car setMemento(CarMemento memento) {
+        return memento.getCar();
     }
 }

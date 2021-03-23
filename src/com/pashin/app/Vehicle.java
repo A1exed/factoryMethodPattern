@@ -3,7 +3,9 @@ package com.pashin.app;
 import com.pashin.exceptions.DuplicateModelNameException;
 import com.pashin.exceptions.NoSuchModelNameException;
 
-public interface Vehicle {
+import java.io.Serializable;
+
+public interface Vehicle extends Serializable, Cloneable {
     String getBrand();
 
     void setBrand(String brand);
