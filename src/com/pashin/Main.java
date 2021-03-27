@@ -5,6 +5,8 @@ import com.pashin.app.chainofresponsibility.impl.InColumnWriter;
 import com.pashin.app.chainofresponsibility.impl.InLineWriter;
 import com.pashin.app.command.impl.InColumnCommand;
 import com.pashin.app.command.impl.InLineCommand;
+import com.pashin.app.strategy.Repairer;
+import com.pashin.app.strategy.impl.SAXAnalyzer;
 import com.pashin.exceptions.DuplicateModelNameException;
 import com.pashin.exceptions.NoSuchModelNameException;
 
@@ -110,7 +112,7 @@ public class Main {
             System.out.println(iterator.next().toString());
         }*/
         // Memento
-        Car car = new Car("Lada", 4);
+        /*Car car = new Car("Lada", 4);
         Car.CarMemento carMemento = car.createMemento();
         System.out.println("---------------");
         System.out.println("Оригинал");
@@ -145,6 +147,10 @@ public class Main {
         prices = car.getAllModelsPrice();
         for (int i = 0; i < car.lengthOfModels(); i++) {
             System.out.println(names[i] + ": " + prices[i]);
-        }
+        }*/
+        // Strategy
+        Repairer repairer = new Repairer();
+        repairer.setAnalyzeStrategy(new SAXAnalyzer());
+        repairer.repair("file1.xml", "file2.xml");
     }
 }
