@@ -1,5 +1,6 @@
 package com.pashin.app;
 
+import com.pashin.app.visitor.VehicleVisitor;
 import com.pashin.exceptions.DuplicateModelNameException;
 import com.pashin.exceptions.NoSuchModelNameException;
 
@@ -27,4 +28,6 @@ public interface Vehicle extends Serializable, Cloneable {
     int lengthOfModels();
 
     Vehicle clone() throws CloneNotSupportedException;
+
+    void accept(VehicleVisitor visitor);
 }

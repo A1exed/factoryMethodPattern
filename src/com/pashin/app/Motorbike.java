@@ -1,5 +1,7 @@
 package com.pashin.app;
 
+import com.pashin.app.visitor.VehicleVisitor;
+import com.pashin.app.visitor.impl.PrintVehicleVisitor;
 import com.pashin.exceptions.DuplicateModelNameException;
 import com.pashin.exceptions.ModelPriceOutOfBoundsException;
 import com.pashin.exceptions.NoSuchModelNameException;
@@ -175,6 +177,11 @@ public class Motorbike implements Vehicle, Cloneable {
             model = model.next;
         }
         return motorbike;
+    }
+
+    @Override
+    public void accept(VehicleVisitor visitor) {
+        visitor.visitMotorbike(this);
     }
 
     private class Model implements Cloneable {

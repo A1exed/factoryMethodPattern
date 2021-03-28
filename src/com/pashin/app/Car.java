@@ -2,6 +2,7 @@ package com.pashin.app;
 
 import com.pashin.app.command.Command;
 import com.pashin.app.command.impl.InColumnCommand;
+import com.pashin.app.visitor.VehicleVisitor;
 import com.pashin.exceptions.DuplicateModelNameException;
 import com.pashin.exceptions.ModelPriceOutOfBoundsException;
 import com.pashin.exceptions.NoSuchModelNameException;
@@ -143,6 +144,11 @@ public class Car implements Vehicle {
             car.models[i] = models[i].clone();
         }
         return car;
+    }
+
+    @Override
+    public void accept(VehicleVisitor visitor) {
+        visitor.visitCar(this);
     }
 
     protected static class Model implements Cloneable, Serializable {

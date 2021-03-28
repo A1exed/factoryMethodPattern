@@ -1,6 +1,7 @@
 package com.pashin.app.decorator;
 
 import com.pashin.app.Vehicle;
+import com.pashin.app.visitor.VehicleVisitor;
 import com.pashin.exceptions.DuplicateModelNameException;
 import com.pashin.exceptions.NoSuchModelNameException;
 
@@ -64,5 +65,10 @@ public class VehicleDecorator implements Vehicle {
     @Override
     public synchronized Vehicle clone() throws CloneNotSupportedException {
         return vehicle.clone();
+    }
+
+    @Override
+    public void accept(VehicleVisitor visitor) {
+        throw new UnsupportedOperationException("Не поддерживается");
     }
 }

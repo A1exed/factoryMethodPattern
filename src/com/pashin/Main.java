@@ -7,6 +7,8 @@ import com.pashin.app.command.impl.InColumnCommand;
 import com.pashin.app.command.impl.InLineCommand;
 import com.pashin.app.strategy.Repairer;
 import com.pashin.app.strategy.impl.SAXAnalyzer;
+import com.pashin.app.visitor.VehicleVisitor;
+import com.pashin.app.visitor.impl.PrintVehicleVisitor;
 import com.pashin.exceptions.DuplicateModelNameException;
 import com.pashin.exceptions.NoSuchModelNameException;
 
@@ -149,8 +151,14 @@ public class Main {
             System.out.println(names[i] + ": " + prices[i]);
         }*/
         // Strategy
-        Repairer repairer = new Repairer();
+        /*Repairer repairer = new Repairer();
         repairer.setAnalyzeStrategy(new SAXAnalyzer());
-        repairer.repair("file1.xml", "file2.xml");
+        repairer.repair("file1.xml", "file2.xml");*/
+        // Visitor
+        VehicleVisitor visitor = new PrintVehicleVisitor();
+        Car car = new Car("Lada", 4);
+        Motorbike motorbike = new Motorbike("MOTO", 4);
+        car.accept(visitor);
+        motorbike.accept(visitor);
     }
 }
