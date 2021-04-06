@@ -6,6 +6,7 @@ import com.pashin.app.chainofresponsibility.impl.InLineWriter;
 import com.pashin.app.command.impl.InColumnCommand;
 import com.pashin.app.command.impl.InLineCommand;
 import com.pashin.app.strategy.Repairer;
+import com.pashin.app.strategy.impl.DOMAnalyzer;
 import com.pashin.app.strategy.impl.SAXAnalyzer;
 import com.pashin.app.visitor.VehicleVisitor;
 import com.pashin.app.visitor.impl.PrintVehicleVisitor;
@@ -151,14 +152,14 @@ public class Main {
             System.out.println(names[i] + ": " + prices[i]);
         }*/
         // Strategy
-        /*Repairer repairer = new Repairer();
-        repairer.setAnalyzeStrategy(new SAXAnalyzer());
-        repairer.repair("file1.xml", "file2.xml");*/
+        Repairer repairer = new Repairer();
+        repairer.setAnalyzeStrategy(new DOMAnalyzer());
+        repairer.repair(args[0], args[1]);
         // Visitor
-        VehicleVisitor visitor = new PrintVehicleVisitor();
+        /*VehicleVisitor visitor = new PrintVehicleVisitor();
         Car car = new Car("Lada", 4);
         Motorbike motorbike = new Motorbike("MOTO", 4);
         car.accept(visitor);
-        motorbike.accept(visitor);
+        motorbike.accept(visitor);*/
     }
 }

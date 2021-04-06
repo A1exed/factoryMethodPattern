@@ -51,12 +51,12 @@ public class Student {
                 '}';
     }
 
-    public void calculateAverage() {
+    public double calculateAverage() {
         double average = 0;
-        for (int i = 0; i < subjects.length; i++){
-            average += subjects[i].getMark();
+        for (Subject subject : subjects) {
+            average += subject.getMark();
         }
         average /= subjects.length;
-        this.average = average;
+        return average;
     }
 }

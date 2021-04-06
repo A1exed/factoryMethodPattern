@@ -27,7 +27,10 @@ public class SAXAnalyzer implements AnalyzeStrategy {
 
             System.out.println("Первый файл:\n" + student.toString());
 
-            student.calculateAverage();
+            double avg = student.calculateAverage();
+
+            if (avg != student.getAverage())
+                student.setAverage(avg);
 
             FileWriter fileWriter = new FileWriter(file2);
             XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newInstance();

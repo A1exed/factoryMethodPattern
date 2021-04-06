@@ -50,7 +50,10 @@ public class DOMAnalyzer implements AnalyzeStrategy {
 
             System.out.println("Первый файл:\n" + student.toString());
 
-            student.calculateAverage();
+            double avg = student.calculateAverage();
+
+            if (avg != student.getAverage())
+                student.setAverage(avg);
 
             studentElement = document2.createElement("student");
             studentElement.setAttribute("lastname", student.getLastname());
