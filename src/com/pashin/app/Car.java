@@ -25,7 +25,7 @@ public class Car implements Vehicle {
         for (int i = 0; i < modelArrayLength; i++) {
             models[i] = new Model();
             models[i].setModelName("M" + i);
-            models[i].setPrice(i * 1.0);
+            models[i].setPrice(i + 1.0);
         }
     }
 

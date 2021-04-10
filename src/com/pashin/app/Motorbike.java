@@ -6,6 +6,8 @@ import com.pashin.exceptions.DuplicateModelNameException;
 import com.pashin.exceptions.ModelPriceOutOfBoundsException;
 import com.pashin.exceptions.NoSuchModelNameException;
 
+import java.io.Serializable;
+
 public class Motorbike implements Vehicle, Cloneable {
     private String brand;
 
@@ -28,7 +30,7 @@ public class Motorbike implements Vehicle, Cloneable {
         for (int i = 0; i < modelListLength; i++) {
             Model model = new Model();
             model.modelName = "M" + i;
-            model.price = i * 1.0;
+            model.price = i + 1.0;
             prev.next = model;
             next.prev = model;
             model.next = next;
@@ -184,7 +186,7 @@ public class Motorbike implements Vehicle, Cloneable {
         visitor.visitMotorbike(this);
     }
 
-    private class Model implements Cloneable {
+    private class Model implements Cloneable, Serializable {
         String modelName = null;
         double price = Double.NaN;
         Model prev = null;

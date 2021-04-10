@@ -5,6 +5,8 @@ import com.pashin.app.chainofresponsibility.impl.InColumnWriter;
 import com.pashin.app.chainofresponsibility.impl.InLineWriter;
 import com.pashin.app.command.impl.InColumnCommand;
 import com.pashin.app.command.impl.InLineCommand;
+import com.pashin.app.dao.CarDAOManager;
+import com.pashin.app.dao.MotorbikeDAOManager;
 import com.pashin.app.strategy.Repairer;
 import com.pashin.app.strategy.impl.DOMAnalyzer;
 import com.pashin.app.strategy.impl.SAXAnalyzer;
@@ -152,14 +154,53 @@ public class Main {
             System.out.println(names[i] + ": " + prices[i]);
         }*/
         // Strategy
-        Repairer repairer = new Repairer();
+        /*Repairer repairer = new Repairer();
         repairer.setAnalyzeStrategy(new DOMAnalyzer());
-        repairer.repair(args[0], args[1]);
+        repairer.repair(args[0], args[1]);*/
         // Visitor
         /*VehicleVisitor visitor = new PrintVehicleVisitor();
         Car car = new Car("Lada", 4);
         Motorbike motorbike = new Motorbike("MOTO", 4);
         car.accept(visitor);
         motorbike.accept(visitor);*/
+        // DAO
+        Car car = new Car("CAR", 4);
+        Motorbike motorbike = new Motorbike("MOTO", 4);
+        CarDAOManager carDAOManager = new CarDAOManager();
+        MotorbikeDAOManager motorbikeDAOManager = new MotorbikeDAOManager();
+
+        System.out.println(car.getBrand());
+        String[] names = car.getAllModelsName();
+        double[] prices = car.getAllModelsPrice();
+        for (int i = 0; i < car.lengthOfModels(); i++) {
+            System.out.println(names[i] + ": " + prices[i]);
+        }
+
+        carDAOManager.writeCarLikeTxt(car);
+        car = carDAOManager.readCarLikeTxt();
+
+        System.out.println(car.getBrand());
+        names = car.getAllModelsName();
+        prices = car.getAllModelsPrice();
+        for (int i = 0; i < car.lengthOfModels(); i++) {
+            System.out.println(names[i] + ": " + prices[i]);
+        }
+
+        System.out.println(motorbike.getBrand());
+        names = motorbike.getAllModelsName();
+        prices = motorbike.getAllModelsPrice();
+        for (int i = 0; i < motorbike.lengthOfModels(); i++) {
+            System.out.println(names[i] + ": " + prices[i]);
+        }
+
+        motorbikeDAOManager.writeMotorbikeLikeSerial(motorbike);
+        motorbike = motorbikeDAOManager.readMotorbikeLikeSerial();
+
+        System.out.println(motorbike.getBrand());
+        names = motorbike.getAllModelsName();
+        prices = motorbike.getAllModelsPrice();
+        for (int i = 0; i < motorbike.lengthOfModels(); i++) {
+            System.out.println(names[i] + ": " + prices[i]);
+        }
     }
 }
